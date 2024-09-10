@@ -3,11 +3,20 @@ import {PiNotePencilBold} from "react-icons/pi";
 import {FaTrashCan} from "react-icons/fa6";
 import PropTypes from "prop-types";
 
-function ShowTask({tasklist,setTaskList}) {
-    const tasks=[
-        {id:10001,name:"Task A",time:"15:22:50 10/09/24"},
-        {id:10002,name:"Task B",time:"15:23:50 10/09/24"},
-        {id:10003,name:"Task C",time:"15:24:50 10/09/24"}]
+function ShowTask({tasklist,setTaskList,task,setTask}) {
+
+    const handelDelete=(id)=>{
+
+        const deleteTask_item = tasklist.filter((select)=> select.id !== id)
+        setTaskList(deleteTask_item)
+
+    }
+    const handelEdit=(id)=>{
+        const seleteItem = tasklist.find((todo)=> todo.id === id)
+        setTask(seleteItem)
+
+    }
+
     return (
         <>
         <section className="showTask">
@@ -19,14 +28,14 @@ function ShowTask({tasklist,setTaskList}) {
                 <button className="clearAll" onClick={()=>setTaskList([])}>Clear All</button>
             </div>
             <ul>
-                {tasklist.map((task)=>(
-                <li key={task.id}>
+                {tasklist.map((todo)=>(
+                <li key={todo.id}>
                     <p>
-                        <span className={"name"}>{task.name}</span>
-                        <span className={"time"}>{task.time}</span>
+                        <span className={"name"}>{todo.name}</span>
+                        <span className={"time"}>{todo.time}</span>
                     </p>
-                    <PiNotePencilBold/>
-                    <FaTrashCan/>
+                    <PiNotePencilBold onClick={()=>handelEdit(todo.id)}/>
+                    <FaTrashCan onClick={()=>handelDelete(todo.id)}/>
                 </li>))}
             </ul>
         </section>
@@ -37,5 +46,7 @@ function ShowTask({tasklist,setTaskList}) {
 export default ShowTask;
 ShowTask.propTypes={
     tasklist:PropTypes.any,
-    setTaskList:PropTypes.any
+    setTaskList:PropTypes.any,
+    task:PropTypes.any,
+    setTask:PropTypes.any
 }
