@@ -1,11 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import HeaderTask from "./headerTask.jsx";
 import AddTask from "./addTask.jsx";
 import ShowTask from "./showTask.jsx";
 
 function MainNoteManager() {
-    const [tasklist,setTaskList] = useState([])
+    const [tasklist,setTaskList] = useState(JSON.parse( localStorage.getItem("tasklist")) || [])
     const [task,setTask] = useState({})
+    useEffect(()=>{
+        localStorage.setItem("taskList",JSON.stringify(tasklist))
+    },[tasklist])
+
     return (
         <>
 <h1>Hello</h1>

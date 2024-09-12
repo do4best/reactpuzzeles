@@ -8,8 +8,11 @@ function AddTask({tasklist,setTaskList,task,setTask}) {
         e.preventDefault()
         if(task.id){
             const date = new Date()
-            const updateTask = tasklist.map((todo)=>(task.id === todo)?{id:task.id,name:task.name,time:`${date.toLocaleTimeString()}${date.toLocaleDateString()}`} :todo)
+            const updateTask = tasklist.map(
+
+                (todo)=>(task.id === todo.id)?{id:task.id,name:!task.name?alert("Cannot be Blank"):"",time:`${date.toLocaleTimeString()}${date.toLocaleDateString()}`} :todo)
 setTaskList(updateTask)
+            setTask({})
         }else{
 
         const date = new Date()
@@ -18,7 +21,7 @@ setTaskList(updateTask)
         const newTask = {id:date.getTime(),name:e.target.task.value,time:`${date.toLocaleTimeString()}${date.toLocaleDateString()}`}
             setTaskList([...tasklist,newTask])
 
-        e.target.task.value = ""
+        setTask({})
 
       }}
 
@@ -26,8 +29,11 @@ setTaskList(updateTask)
         <>
 <section className="addTask">
     <form onSubmit={handelSubmit}>
-        <input type="text" name={"task"} autoComplete={"off"} value={task.name} placeholder={"Add Task"} maxLength={"25"} onChange={(e)=>setTask({...task,name:e.target.value})}/>
-        <button type={"submit"} >Add</button>
+        <input type="text" name={"task"} autoComplete={"off"} value={task.name || ""} placeholder={"Add Task"} maxLength={"25"} onChange={(e)=>setTask({...task,name:e.target.value})}/>
+
+
+        <button type={"submit"} >{task.id ? "Update":"Add"}</button>
+
     </form>
 </section>
 
